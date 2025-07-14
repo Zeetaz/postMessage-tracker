@@ -1,56 +1,89 @@
-var port = chrome.extension.connect({
-	name: "Sample Communication"
+// V3 Popup script (updated from V2)
+var port = chrome.runtime.connect({
+    name: "PostMessage Tracker V3 Communication"
 });
 
-
 function loaded() {
-	port.postMessage("get-stuff");
-	port.onMessage.addListener(function(msg) {
-		console.log("message recieved yea: ", msg);
-		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-			selectedId = tabs[0].id;
-			listListeners(msg.listeners[selectedId]);
-		});
-	});
+    try {
+        port.postMessage("get-stuff");
+        port.onMessage.addListener(function(msg) {
+            console.log("PostMessage Tracker V3: message received:", msg);
+            chrome.tabs.query({active: true, currentWindow: true}).then(function(tabs) {
+                if (tabs.length > 0) {
+                    const selectedId = tabs[0].id;
+                    listListeners(msg.listeners[selectedId] || []);
+                }
+            }).catch(function(error) {
+                console.error('PostMessage Tracker V3: Failed to query tabs:', error);
+                listListeners([]);
+            });
+        });
+    } catch (error) {
+        console.error('PostMessage Tracker V3: Popup initialization error:', error);
+        listListeners([]);
+    }
 }
 
-window.onload = loaded
-//addEventListener('DOMContentLoaded', loaded);
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loaded);
+} else {
+    loaded();
+}
 
 function listListeners(listeners) {
-	var x = document.getElementById('x');
-	x.parentElement.removeChild(x);
-	x = document.createElement('ol');
-	x.id = 'x';
-	//console.log(listeners);
-	document.getElementById('h').innerText = listeners.length ? listeners[0].parent_url : '';
+    try {
+        var x = document.getElementById('x');
+        if (x) {
+            x.parentElement.removeChild(x);
+        }
+        
+        x = document.createElement('ol');
+        x.id = 'x';
+        
+        // Set header
+        const headerElement = document.getElementById('h');
+        if (headerElement) {
+            headerElement.innerText = (listeners && listeners.length) ? listeners[0].parent_url || '' : 'No listeners detected';
+        }
 
-	for(var i = 0; i < listeners.length; i++) {
-		listener = listeners[i]
-		el = document.createElement('li');
+        if (listeners && listeners.length > 0) {
+            for(var i = 0; i < listeners.length; i++) {
+                var listener = listeners[i];
+                var el = document.createElement('li');
 
-		bel = document.createElement('b');
-		bel.innerText = listener.domain + ' ';
-		win = document.createElement('code');
-		win.innerText = ' ' + (listener.window ? listener.window + ' ' : '') + (listener.hops && listener.hops.length ? listener.hops : '');
-		el.appendChild(bel);
-		el.appendChild(win);
+                // Domain and window info
+                var bel = document.createElement('b');
+                bel.innerText = (listener.domain || 'unknown') + ' ';
+                var win = document.createElement('code');
+                win.innerText = ' ' + (listener.window ? listener.window + ' ' : '') + 
+                               (listener.hops && listener.hops.length ? listener.hops : '');
+                el.appendChild(bel);
+                el.appendChild(win);
 
-		sel = document.createElement('span');
-		if(listener.fullstack) sel.setAttribute('title', listener.fullstack.join("\n\n"));
-		seltxt = document.createTextNode(listener.stack);
-		
-		sel.appendChild(seltxt);
-		el.appendChild(sel);
+                // Stack info
+                var sel = document.createElement('span');
+                if(listener.fullstack) {
+                    sel.setAttribute('title', listener.fullstack.join("\n\n"));
+                }
+                var seltxt = document.createTextNode(listener.stack || 'Unknown stack');
+                sel.appendChild(seltxt);
+                el.appendChild(sel);
 
-		pel = document.createElement('pre');
-		pel.innerText = listener.listener;
-		el.appendChild(pel);
+                // Listener code
+                var pel = document.createElement('pre');
+                pel.innerText = listener.listener || 'function() { /* code not available */ }';
+                el.appendChild(pel);
 
-		x.appendChild(el);
-	}
-	document.getElementById('content').appendChild(x);
-	/*setTimeout(function() {
-		document.body.style.display = 'block';
-	}, 150);*/
+                x.appendChild(el);
+            }
+        }
+        
+        const contentElement = document.getElementById('content');
+        if (contentElement) {
+            contentElement.appendChild(x);
+        }
+    } catch (error) {
+        console.error('PostMessage Tracker V3: Error building listener list:', error);
+    }
 }

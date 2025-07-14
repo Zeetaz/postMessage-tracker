@@ -1,3 +1,22 @@
+### Fork from the OG himself - modified for Manifest V3 that actually should work (maybe...)
+
+The goal is to simply make the base variant if frans's postmessage tracker work as it does in V2 but in V3 for chrome.
+
+1. Make sure it functions similarly / behaves the same as V2+ (for the end results)
+
+2. Most of the "clones" I've seen for v3 does not function properly, they inject too "slow", therefore only dynamically loaded listeners will be caught - I don't like that.
+
+3. I am not a programmer - But it should work
+
+Anyhow, work in progress - looks like it might actually work *properly* right now.
+
+**Note:** Don't ask me about this code. I gave subtle hints to a selection of AI's untill one eventually did something resembeling what I wanted and I just tossed it up here.
+
+
+______________________________
+
+
+
 # postMessage-tracker
 
 Made by [Frans Rosén](https://twitter.com/fransrosen). Presented during the ["Attacking modern web technologies"-talk](https://www.youtube.com/watch?v=oJCCOnF25JU) ([Slides](https://speakerdeck.com/fransrosen/owasp-appseceu-2018-attacking-modern-web-technologies)) at OWASP AppSec Europe back in 2018, but finally released in May 2020.
