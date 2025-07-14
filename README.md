@@ -1,17 +1,14 @@
-### Fork from the OG himself - modified for Manifest V3 that actually should work (maybe...)
+### Fork from the OG himself - modified for Manifest V3 that should work the same (I think...)
 
-The goal is to simply make the base variant if frans's postmessage tracker work as it does in V2 but in V3 for chrome.
+The goal is to simply make the base variant of Frans postmessage tracker work, just as it does in V2 but for V3 instead.
 
-1. Make sure it functions similarly / behaves the same as V2+ (for the end results)
+1. Make sure it functions similarly / behaves the same as V2 (for the end results)
 
-2. Most of the "clones" I've seen for v3 does not function properly, they inject too "slow", therefore only dynamically loaded listeners will be caught - I don't like that.
+2. Most of the forks/clones I've seen for v3 does not function properly, they inject too "slow", therefore only dynamically loaded listeners will be caught.
 
-3. I am not a programmer - But it should work
-
-Anyhow, work in progress - looks like it might actually work *properly* right now.
+3. I am not a programmer by profession - But this seems to work well enough
 
 **Note:** Don't ask me about this code. I gave subtle hints to a selection of AI's untill one eventually did something resembeling what I wanted and I just tossed it up here.
-
 
 ______________________________
 
