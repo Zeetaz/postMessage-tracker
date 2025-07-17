@@ -1,3 +1,9 @@
+
+### This version has a minor persistence issue + another cumbersome service worker kink
+I made this instead for now --> [FancyTracker](https://github.com/Zeetaz/postMessage-tracker)
+
+Might patch this fork at a later date...
+
 ### Fork from the OG himself - modified for Manifest V3 that should work the same (I think...)
 
 The goal is to simply make the base variant of Frans postmessage tracker work, just as it does in V2 but for V3 instead.
