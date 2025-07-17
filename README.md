@@ -1,6 +1,6 @@
 
 ### This version has a minor persistence issue + another cumbersome service worker kink
-I made this instead for now --> [FancyTracker](https://github.com/Zeetaz/postMessage-tracker)
+I made this instead for now --> [FancyTracker](https://github.com/Zeetaz/FancyTracker)
 
 Might patch this fork at a later date...
 
